@@ -17,20 +17,8 @@ import json
 import numpy as np
 
 author_paperList = 'data/author.pth'
-author_later = 'data/author_later.json'
-paper_later = 'data/paper_later.json'
-
-
-
-
-
-batch = 512
-epoch = 10
-learning_rate = 0.05
-lstm_layers_num = 2
-lstm_dropout = 0.4
-gnn_dropout = 0.
-classification_threshold = 0.5
+author_later = 'data/author.json'
+paper_later = 'data/paper.json'
 
 
 all_data = torch.load(author_paperList)
@@ -296,6 +284,13 @@ class endModel(nn.Module):
 # test_n = 'data/test_n.txt'
 # train_p = 'data/train_p.txt'
 # train_n = 'data/train_n.txt'
+batch = 512
+epoch = 10
+learning_rate = 0.05
+lstm_layers_num = 2
+lstm_dropout = 0.4
+gnn_dropout = 0.
+classification_threshold = 0.5
 
 class Data(Dataset):
     def __init__(self, data: str, mark: int):
@@ -355,34 +350,7 @@ def get_result(myModel,datas,targets):
         res = res.cpu().numpy()
 
 
-    my_list = [round(x, 3) for x in att_score_weight[0].tolist()]
-    with open('attention_for_matepath.txt', 'a') as file:
-        file.write(' '.join(str(number) for number in my_list) + '\n')
 
-for i in range(epoch):
-    train_log.write("epoch:{}\n".format(i))
-    num = 1
-    total_number=len(train_dataset)
-
-    for data in train_dataloader:
-        rate_of_progress = num / (total_number / batch)
-
-
-        myModel.train()
-        datas, targets = data
-        targets = targets.type(torch.float)
-        datas = datas.cuda()
-        targets = targets.cuda()
-        outputs,att_score_weight = myModel(datas)
-        res_loss = loss(outputs, targets)
-
-        my_list = [round(i, 3) for i in att_score_weight[0].tolist()]
-        optim.zero_grad()
-        res_loss.backward()
-        optim.step()
-        if (rate_of_progress*100 >90):
-            get_result(myModel,datas,targets)
-        num += 1
 
 
 
