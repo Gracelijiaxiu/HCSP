@@ -292,10 +292,10 @@ class endModel(nn.Module):
         
         return cos_author,att_score_weight
 
-# test_p = 'data/test_p_later.txt'
-# test_n = 'data/test_n_later.txt'
-# train_p = 'data/train_p_later.txt'
-# train_n = 'data/train_n_later.txt'
+# test_p = 'data/test_p.txt'
+# test_n = 'data/test_n.txt'
+# train_p = 'data/train_p.txt'
+# train_n = 'data/train_n.txt'
 
 class Data(Dataset):
     def __init__(self, data: str, mark: int):
