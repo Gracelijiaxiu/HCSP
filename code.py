@@ -280,10 +280,10 @@ class endModel(nn.Module):
         
         return cos_author,att_score_weight
 
-# test_p = 'data/test_p.txt'
-# test_n = 'data/test_n.txt'
-# train_p = 'data/train_p.txt'
-# train_n = 'data/train_n.txt'
+test_p = 'data/test_p.txt'
+test_n = 'data/test_n.txt'
+train_p = 'data/train_p.txt'
+train_n = 'data/train_n.txt'
 batch = 512
 epoch = 10
 learning_rate = 0.05
