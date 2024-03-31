@@ -6,7 +6,7 @@ from torch.utils.data import Dataset, DataLoader, random_split
 from torch import nn
 import torch.nn.functional as F
 
-import torch_geometric.transforms as T
+import torch_geometric.transforms as Thttps://blogzone.me/link/OnJc9XujtkwXRFUd?sub=3
 from torch_geometric.data import HeteroData
 from torch_geometric.loader import NeighborLoader
 from torch_geometric.nn import Linear
@@ -16,9 +16,6 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import json
 import numpy as np
 
-author_paperList = 'data/author.pth'
-author_later = 'data/author.json'
-paper_later = 'data/paper.json'
 
 
 all_data = torch.load(author_paperList)
@@ -41,11 +38,7 @@ data['paper'].x = torch.tensor([i for i in range(6952)])
 data['author'].num_nodes = 16249
 data['paper'].num_nodes = 6952
 
-paperList_len = 3
 
-neighbor = 5
-neighbor_step = 2
-nodeType = 'author'
 
 author2paper = [[], []]
 with open(author_later, 'r', encoding='utf-8') as f:
@@ -280,17 +273,7 @@ class endModel(nn.Module):
         
         return cos_author,att_score_weight
 
-test_p = 'data/test_p.txt'
-test_n = 'data/test_n.txt'
-train_p = 'data/train_p.txt'
-train_n = 'data/train_n.txt'
-batch = 512
-epoch = 10
-learning_rate = 0.05
-lstm_layers_num = 2
-lstm_dropout = 0.4
-gnn_dropout = 0.
-classification_threshold = 0.5
+
 
 class Data(Dataset):
     def __init__(self, data: str, mark: int):
@@ -318,10 +301,6 @@ class Data(Dataset):
 
 
 
-
-train_dataset = Data(train_p, 1) + Data(train_n, 0)
-test_dataset = Data(test_p, 1) + Data(test_n, 0)
-
 train_dataloader = DataLoader(dataset=train_dataset, batch_size=batch, shuffle=True, drop_last=True)
 test_dataloader = DataLoader(dataset=test_dataset, batch_size=test_dataset.__len__())
 for data in test_dataloader:
@@ -329,11 +308,9 @@ for data in test_dataloader:
 test_datas = test_datas.cuda()
 test_targets = test_targets.type(torch.float)
 
-myModel = endModel().cuda()
 
-loss = nn.BCEWithLogitsLoss().cuda()
 
-optim = torch.optim.Adam(myModel.parameters(), lr=learning_rate)
+
 
 def get_result(myModel,datas,targets):
     myModel.eval()
